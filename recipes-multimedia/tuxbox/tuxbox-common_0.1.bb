@@ -6,6 +6,7 @@ PR = "r0"
 
 VERSION := "${PV}"
 PV = "${VERSION}+svn${SRCPV}"
+SRCREV = "${AUTOREV}"
 
 SRC_URI = "${PLISVNURL}/${PLISVNBRANCH}/cdk/cdk;module=root;protocol=${PLISVNPROTO}"
 

@@ -8,6 +8,8 @@ DEPENDS = "freetype"
 PV = "1.13+svn${SRCPV}"
 PR = "r2"
 
+SRCREV = "${AUTOREV}"
+
 SRC_URI = "${PLISVNURL}/${PLISVNBRANCH}/external;module=tuxcom;protocol=${PLISVNPROTO} \
 	file://add_advanced_rc.diff"
 
