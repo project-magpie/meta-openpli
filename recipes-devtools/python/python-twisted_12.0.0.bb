@@ -49,7 +49,7 @@ RDEPENDS_${PN} += "\
 
 do_install_append() {
     # remove some useless files before packaging
-    find ${D} -name "*.bat" -o -name "*.c" -o -name "*.h" -exec rm {} \;
+    find ${D} -name "*.bat" -o -name "*.c" -o -name "*.h" -o -name "*.zsh" | xargs rm
 }
 
 ALLOW_EMPTY_${PN} = "1"
@@ -169,6 +169,8 @@ ${libdir}/${PYTHON_DIR}/site-packages/twisted/im.py* \
 ${libdir}/${PYTHON_DIR}/site-packages/twisted/*.py* \
 ${libdir}/${PYTHON_DIR}/site-packages/twisted/python/*.py* \
 ${libdir}/${PYTHON_DIR}/site-packages/twisted/plugins/*.py* \
+${libdir}/${PYTHON_DIR}/site-packages/twisted/topfiles \
+${libdir}/${PYTHON_DIR}/site-packages/Twisted*egg-info \
 "
 RDEPENDS_${PN}-core = "python-core python-zopeinterface"
 
