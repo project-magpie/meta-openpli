@@ -68,3 +68,5 @@ do_configure_prepend() {
 	# manually provide remove-potcdate.sin, while our intltoolize does not install it
 	cp ${STAGING_DATADIR_NATIVE}/gettext/po/remove-potcdate.sin ${S}/po/
 }
+
+FILES_${PN} += "${sysconfdir}"
