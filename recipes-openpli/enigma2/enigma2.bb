@@ -33,8 +33,23 @@ RRECOMMENDS_${PN} = " \
 	${GST_GOOD_RDEPS} \
 	${GST_BAD_RDEPS} \
 	${GST_UGLY_RDEPS} \
-	gst-plugin-libxt \
 	"
+
+RRECOMMENDS_${PN}_et4x00 = "\
+	gst-plugin-libxt \
+"
+
+RRECOMMENDS_${PN}_et5x00 = "\
+	gst-plugin-libxt \
+"
+
+RRECOMMENDS_${PN}_et6x00 = "\
+	gst-plugin-libxt \
+"
+
+RRECOMMENDS_${PN}_et9x00 = "\
+	gst-plugin-libxt \
+"
 
 PYTHON_RDEPS = " \
 	python-codecs \
