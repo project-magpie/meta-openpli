@@ -12,6 +12,8 @@ PV = "0.10.0+git${SRCPV}"
 PKGV = "0.10.0+git${GITPKGV}"
 PR = "r0"
 
+COMPATIBLE_MACHINE="(et4x00|et5x00|et6x00|et9x00)"
+
 FILES_${PN} = "${libdir}/gstreamer-0.10/"
 
 do_install_append() {
