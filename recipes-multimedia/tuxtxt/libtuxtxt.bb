@@ -16,6 +16,3 @@ PR = "r0"
 EXTRA_OECONF = "--with-boxtype=generic"
 
 inherit autotools pkgconfig
-
-FILES_${PN} = "/usr/lib/libtuxtxt.so.*"
-FILES_${PN}-dev = "/usr/include/ /usr/lib/libtuxtxt.la /usr/lib/pkgconfig/tuxbox-tuxtxt.pc"
