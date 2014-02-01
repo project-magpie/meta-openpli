@@ -10,11 +10,12 @@ DEPENDS = " \
 	gst-plugins-base gstreamer \
 	hotplug-e2-helper \
 	jpeg \
-	libdreamdvd libdvbsi++ libfribidi libmad libpng libsigc++-1.2 libungif libxml2 libxmlccwrap \
+	libdreamdvd libdvbsi++ libfribidi libmad libpng libsigc++-1.2 libxml2 libxmlccwrap \
 	openssl \
 	python python-imaging python-twisted python-wifi \
 	swig-native \
 	tuxtxt-enigma2 \
+	giflib \
 	"
 
 RDEPENDS_${PN} = " \
