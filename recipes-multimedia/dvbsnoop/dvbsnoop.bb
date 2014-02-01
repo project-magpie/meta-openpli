@@ -6,6 +6,8 @@ SRCDATE = "20081001"
 PV = "0.0+cvs${SRCDATE}"
 PR = "r1"
 
+SRCREV = "${AUTOREV}"
+
 SRC_URI = "git://gitorious.org/tuxbox-cvs/apps.git;protocol=git;module=apps/dvb/dvbsnoop"
 
 S = "${WORKDIR}/git/dvb/dvbsnoop"
