@@ -168,7 +168,9 @@ PKGV = "2.7+git${GITPKGV}"
 PR = "r49"
 
 ENIGMA2_BRANCH ?= "master"
-SRC_URI = "git://git.code.sf.net/p/openpli/enigma2;protocol=git;branch=${ENIGMA2_BRANCH}"
+SRC_URI = "git://git.code.sf.net/p/openpli/enigma2;protocol=git;branch=${ENIGMA2_BRANCH} \
+           file://enigma2.init \
+"
 
 S = "${WORKDIR}/git"
 
@@ -179,6 +181,13 @@ PACKAGES += "${PN}-meta"
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 inherit autotools pkgconfig
+
+inherit update-rc.d
+
+INITSCRIPT_PACKAGES   = "${PN}"
+INITSCRIPT_NAME_${PN} = "${PN}"
+INITSCRIPT_PARAMS_${PN} = "start 99 5 . stop 20 0 1 2 3 4 6 ."
+FILES_${PN} += "${sysconfdir}/init.d"
 
 PACKAGES =+ "enigma2-fonts"
 PV_enigma2-fonts = "2010.11.14"
@@ -249,6 +258,8 @@ addtask openpli_branding after do_unpack before do_configure
 do_install_append() {
 	install -d ${D}/usr/share/keymaps
 	find ${D}/usr/lib/enigma2/python/ -name '*.pyc' -exec rm {} \;
+	install -d ${D}/${sysconfdir}/init.d
+    install -m 755 ${WORKDIR}/${PN}.init ${D}/${sysconfdir}/init.d/${PN}
 }
 
 python populate_packages_prepend() {

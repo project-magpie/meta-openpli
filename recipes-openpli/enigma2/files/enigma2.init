@@ -1,0 +1,69 @@
+#!/bin/sh
+#
+test -e /etc/default/enigma2 && . /etc/default/enigma2
+
+MESSAGE=:
+type -p drivertool > /dev/null && MESSAGE="drivertool VFD_SET_TEXT"
+
+start_enigma2() {
+	#enigma2 uses this to detect if udev is present
+	touch /dev/.udev
+
+	# spark: find out if we are running on HDMI or on SCART...
+	if [ -e /sys/class/stmcoredisplay/hdmi0.0/hotplug ]; then
+		read H < /sys/class/stmcoredisplay/hdmi0.0/hotplug
+		if [ "$H" = n ]; then
+			if ! [ -e /var/tuxbox/config/enigma2.conf ]; then
+				# first boot... set framebuffer to the correct resolution
+				echo "pal" > /proc/stb/video/videomode
+			fi
+			export enigma2_DEFAULT_SCART=yes
+		fi
+		echo
+		echo "HDMI detected: $H"
+		echo "enigma2_DEFAULT_SCART: ${enigma2_DEFAULT_SCART:-no}"
+		echo
+	fi
+
+	QUIET=""
+	[ x$enigma2_QUIET = xyes ] && QUIET=">/dev/null 2>&1"
+	# coolstream: work around driver problems
+	type -p uncoolinit > /dev/null && uncoolinit $QUIET
+	rm -f /tmp/.halt /tmp/.reboot /tmp/.timer /dev/shm/.timer
+	start-stop-daemon -S -p /var/run/enigma2.pid -m -o -x enigma2 $QUIET
+	RET=$?
+	echo "enigma2 exited with exit code $RET"
+	$MESSAGE "enigma2:$RET"
+	if [ $RET = 1 ]; then
+		touch /tmp/.halt
+	fi
+	$MESSAGE "start_n ends"
+	if [ -e /tmp/.reboot ]; then # gets created by enigma2
+		$MESSAGE "rebooting..."
+		reboot
+	fi
+	if [ -e /tmp/.halt ]; then
+		$MESSAGE "shutting down..."
+		poweroff
+	fi
+	# this will survive the unmount of tmpfs
+	[ -e /tmp/.timer ] && cp /tmp/.timer /dev/shm/
+}
+
+case $1 in
+	start)
+		# this makes for a nicer ps xauww listing...
+		exec /etc/init.d/enigma2 start_enigma2 &
+		;;
+	start_enigma2)
+		start_enigma2 &
+		;;
+	stop)
+		start-stop-daemon -K -q -s TERM -p /var/run/enigma2.pid -x enigma2 || exit 0
+		# wait for enigma2 to really shut down
+		for i in 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19; do
+			start-stop-daemon -K -q -t -p /var/run/enigma2.pid -x enigma2 || break
+			sleep 1
+		done
+		;;
+esac
