@@ -38,3 +38,8 @@ python do_package_prepend () {
             if target_remote != name and name != 'ow_remote.png':
                 os.remove(os.path.join(root, name))
 }
+
+
+FILES_${PN} = "/usr/lib/python2.7 \
+               /usr/lib/enigma2 \
+"
